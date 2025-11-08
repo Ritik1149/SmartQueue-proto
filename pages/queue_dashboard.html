@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Queue Dashboard - SmartQueue</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fsmartqueue2799back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background">
+    <!-- Navigation Header -->
+    <header class="bg-white shadow-subtle sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="4" width="24" height="24" rx="4" fill="currentColor"/>
+                            <path d="M12 10h8v2h-8v-2zm0 4h8v2h-8v-2zm0 4h6v2h-6v-2z" fill="white"/>
+                            <circle cx="9" cy="11" r="1" fill="white"/>
+                            <circle cx="9" cy="15" r="1" fill="white"/>
+                            <circle cx="9" cy="19" r="1" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-xl font-bold text-primary">SmartQueue</h1>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="homepage.html" class="text-secondary-600 hover:text-primary px-3 py-2 rounded-md text-sm transition-colors">Home</a>
+                        <a href="institution_directory.html" class="text-secondary-600 hover:text-primary px-3 py-2 rounded-md text-sm transition-colors">Directory</a>
+                        <a href="queue_dashboard.html" class="text-primary font-semibold px-3 py-2 rounded-md text-sm">Dashboard</a>
+                        <a href="institution_admin_panel.html" class="text-secondary-600 hover:text-primary px-3 py-2 rounded-md text-sm transition-colors">Admin</a>
+                    </div>
+                </div>
+
+                <!-- User Profile -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 text-secondary-600 hover:text-primary transition-colors" onclick="toggleNotifications()">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM10.07 2.82l3.93 3.93-3.93 3.93-3.93-3.93 3.93-3.93z"/>
+                            </svg>
+                            <span class="w-2 h-2 bg-error rounded-full animate-pulse-gentle"></span>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User Profile" class="w-8 h-8 rounded-full object-cover" loading="lazy" onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                        <span class="text-sm font-medium text-text-primary">Rajesh Kumar</span>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="text-secondary-600 hover:text-primary p-2" onclick="toggleMobileMenu()">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-secondary-200">
+                    <a href="homepage.html" class="text-secondary-600 hover:text-primary block px-3 py-2 rounded-md text-base">Home</a>
+                    <a href="institution_directory.html" class="text-secondary-600 hover:text-primary block px-3 py-2 rounded-md text-base">Directory</a>
+                    <a href="queue_dashboard.html" class="text-primary font-semibold block px-3 py-2 rounded-md text-base">Dashboard</a>
+                    <a href="institution_admin_panel.html" class="text-secondary-600 hover:text-primary block px-3 py-2 rounded-md text-base">Admin</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-text-primary mb-2">Queue Dashboard</h1>
+            <p class="text-text-secondary">Monitor your active queues and track your position in real-time</p>
+        </div>
+
+        <!-- Active Queue Status -->
+        <div class="grid lg:grid-cols-3 gap-8 mb-8">
+            <!-- Current Queue Card -->
+            <div class="lg:col-span-2">
+                <div class="card-queue-data">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-success rounded-full animate-pulse-gentle"></div>
+                            <h2 class="text-xl font-semibold text-text-primary">Active Queue</h2>
+                        </div>
+                        <button class="text-error hover:text-error-600 text-sm font-medium transition-colors" onclick="showExitConfirmation()">
+                            Leave Queue
+                        </button>
+                    </div>
+
+                    <!-- Institution Info -->
+                    <div class="flex items-center space-x-4 mb-6 p-4 bg-surface rounded-lg">
+                        <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Apollo Hospital" class="w-16 h-16 rounded-lg object-cover" loading="lazy" onerror="this.src='https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                        <div>
+                            <h3 class="font-semibold text-text-primary">Apollo Hospital - Cardiology</h3>
+                            <p class="text-sm text-text-secondary">Dr. Sarah Patel • Consultation</p>
+                            <p class="text-xs text-text-secondary">Joined: Today, 10:30 AM</p>
+                        </div>
+                    </div>
+
+                    <!-- Queue Position Display -->
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-primary-100 to-accent-100 rounded-full mb-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary" id="queue-position">3</div>
+                                <div class="text-sm text-text-secondary">Position</div>
+                            </div>
+                        </div>
+                        <p class="text-lg font-semibold text-text-primary mb-2">You're #3 in line</p>
+                        <p class="text-text-secondary">Estimated wait time: <span class="font-semibold text-accent" id="wait-time">12 minutes</span></p>
+                    </div>
+
+                    <!-- Queue Progress Bar -->
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-text-secondary mb-2">
+                            <span>Queue Progress</span>
+                            <span id="progress-percentage">65%</span>
+                        </div>
+                        <div class="w-full bg-secondary-200 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-500" style="width: 65%" id="progress-bar"></div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button class="btn-primary flex-1" onclick="openQRScanner()">
+                            <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                            </svg>
+                            Scan QR Code
+                        </button>
+                        <button class="btn-secondary flex-1" onclick="shareQueue()">
+                            <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+                            </svg>
+                            Share Position
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions & Notifications -->
+            <div class="space-y-6">
+                <!-- Notification Center -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-text-primary">Notifications</h3>
+                        <button class="text-sm text-primary hover:text-primary-700 transition-colors" onclick="markAllRead()">
+                            Mark all read
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-3" id="notifications-list">
+                        <!-- Notification 1 -->
+                        <div class="flex items-start space-x-3 p-3 bg-success-50 rounded-lg border-l-4 border-success">
+                            <div class="w-2 h-2 bg-success rounded-full mt-2 flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-success-700">Queue Position Updated</p>
+                                <p class="text-xs text-success-600">You moved up to position #3</p>
+                                <p class="text-xs text-success-500 mt-1">2 minutes ago</p>
+                            </div>
+                        </div>
+
+                        <!-- Notification 2 -->
+                        <div class="flex items-start space-x-3 p-3 bg-warning-50 rounded-lg border-l-4 border-warning">
+                            <div class="w-2 h-2 bg-warning rounded-full mt-2 flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-warning-700">Prepare for Your Turn</p>
+                                <p class="text-xs text-warning-600">Estimated 10 minutes remaining</p>
+                                <p class="text-xs text-warning-500 mt-1">5 minutes ago</p>
+                            </div>
+                        </div>
+
+                        <!-- Notification 3 -->
+                        <div class="flex items-start space-x-3 p-3 bg-primary-50 rounded-lg border-l-4 border-primary">
+                            <div class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-primary-700">Queue Joined Successfully</p>
+                                <p class="text-xs text-primary-600">Apollo Hospital - Cardiology</p>
+                                <p class="text-xs text-primary-500 mt-1">25 minutes ago</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="w-full mt-4 text-sm text-primary hover:text-primary-700 transition-colors" onclick="viewAllNotifications()">
+                        View All Notifications
+                    </button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Quick Actions</h3>
+                    
+                    <div class="space-y-3">
+                        <button class="w-full flex items-center space-x-3 p-3 text-left hover:bg-surface rounded-lg transition-colors" onclick="joinNewQueue()">
+                            <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-text-primary">Join New Queue</p>
+                                <p class="text-sm text-text-secondary">Find and join another queue</p>
+                            </div>
+                        </button>
+
+                        <button class="w-full flex items-center space-x-3 p-3 text-left hover:bg-surface rounded-lg transition-colors" onclick="viewHistory()">
+                            <div class="w-10 h-10 bg-accent-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-text-primary">Queue History</p>
+                                <p class="text-sm text-text-secondary">View past queue activities</p>
+                            </div>
+                        </button>
+
+                        <button class="w-full flex items-center space-x-3 p-3 text-left hover:bg-surface rounded-lg transition-colors" onclick="manageSettings()">
+                            <div class="w-10 h-10 bg-secondary-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-text-primary">Notification Settings</p>
+                                <p class="text-sm text-text-secondary">Manage your preferences</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Queue Activity -->
+        <div class="card mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-text-primary">Recent Queue Activity</h2>
+                <a href="javascript:void(0)" class="text-primary hover:text-primary-700 text-sm font-medium transition-colors">View All</a>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Activity Item 1 -->
+                <div class="flex items-center space-x-4 p-4 bg-surface rounded-lg">
+                    <div class="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium text-text-primary">Queue Completed</h4>
+                        <p class="text-sm text-text-secondary">HDFC Bank - Account Services</p>
+                        <p class="text-xs text-text-secondary">Yesterday, 2:30 PM • Wait time: 18 minutes</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
+                            Completed
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Activity Item 2 -->
+                <div class="flex items-center space-x-4 p-4 bg-surface rounded-lg">
+                    <div class="w-12 h-12 bg-warning-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-warning-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium text-text-primary">Queue Cancelled</h4>
+                        <p class="text-sm text-text-secondary">Government Office - Passport Services</p>
+                        <p class="text-xs text-text-secondary">Oct 5, 11:00 AM • Reason: Emergency closure</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-warning-100 text-warning-800">
+                            Cancelled
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Actions -->
+        <div class="card bg-error-50 border border-error-200">
+            <div class="flex items-start space-x-3">
+                <svg class="w-6 h-6 text-error mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+                <div class="flex-1">
+                    <h3 class="font-semibold text-error-700 mb-2">Emergency Queue Exit</h3>
+                    <p class="text-sm text-error-600 mb-4">
+                        If you need to leave the queue due to an emergency, please follow proper queue etiquette to maintain fairness for other users.
+                    </p>
+                    <button class="btn-secondary text-error-700 border-error-300 hover:bg-error-100" onclick="emergencyExit()">
+                        Emergency Exit Queue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- QR Scanner Modal -->
+    <div id="qr-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-text-primary">Scan QR Code</h3>
+                <button onclick="closeQRScanner()" class="text-secondary-400 hover:text-secondary-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="bg-secondary-100 rounded-lg h-64 flex items-center justify-center mb-4">
+                <div class="text-center">
+                    <svg class="w-16 h-16 text-secondary-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                    </svg>
+                    <p class="text-secondary-600">Camera access required</p>
+                    <p class="text-sm text-secondary-500">Point your camera at the QR code</p>
+                </div>
+            </div>
+            
+            <button class="btn-primary w-full" onclick="simulateQRScan()">
+                Simulate QR Scan
+            </button>
+        </div>
+    </div>
+
+    <!-- Exit Confirmation Modal -->
+    <div id="exit-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-error-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-text-primary mb-2">Leave Queue?</h3>
+                <p class="text-text-secondary">Are you sure you want to leave the queue? You'll lose your current position (#3) and will need to rejoin if you want to continue.</p>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button class="btn-secondary flex-1" onclick="closeExitConfirmation()">Cancel</button>
+                <button class="bg-error text-white px-6 py-3 rounded-lg font-semibold hover:bg-error-600 transition-colors flex-1" onclick="confirmExit()">
+                    Leave Queue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-secondary-900 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="4" width="24" height="24" rx="4" fill="currentColor"/>
+                            <path d="M12 10h8v2h-8v-2zm0 4h8v2h-8v-2zm0 4h6v2h-6v-2z" fill="white"/>
+                            <circle cx="9" cy="11" r="1" fill="white"/>
+                            <circle cx="9" cy="15" r="1" fill="white"/>
+                            <circle cx="9" cy="19" r="1" fill="white"/>
+                        </svg>
+                        <h3 class="text-xl font-bold ml-3">SmartQueue</h3>
+                    </div>
+                    <p class="text-secondary-300 mb-6 max-w-md">
+                        Revolutionizing waiting experiences through intelligent queue management. Skip the line, not the service.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="homepage.html" class="text-secondary-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="institution_directory.html" class="text-secondary-300 hover:text-white transition-colors">Directory</a></li>
+                        <li><a href="queue_dashboard.html" class="text-secondary-300 hover:text-white transition-colors">Dashboard</a></li>
+                        <li><a href="user_registration.html" class="text-secondary-300 hover:text-white transition-colors">Sign Up</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="javascript:void(0)" class="text-secondary-300 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="javascript:void(0)" class="text-secondary-300 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="javascript:void(0)" class="text-secondary-300 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="javascript:void(0)" class="text-secondary-300 hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-secondary-800 mt-12 pt-8 text-center">
+                <p class="text-secondary-400">© 2025 SmartQueue. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Real-time queue data simulation
+        let queuePosition = 3;
+        let waitTime = 12;
+        let progressPercentage = 65;
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Notification toggle
+        function toggleNotifications() {
+            // Simulate notification panel toggle
+            console.log('Notifications panel toggled');
+        }
+
+        // QR Scanner functions
+        function openQRScanner() {
+            document.getElementById('qr-modal').classList.remove('hidden');
+        }
+
+        function closeQRScanner() {
+            document.getElementById('qr-modal').classList.add('hidden');
+        }
+
+        function simulateQRScan() {
+            closeQRScanner();
+            showNotification('QR Code scanned successfully!', 'success');
+        }
+
+        // Exit confirmation functions
+        function showExitConfirmation() {
+            document.getElementById('exit-modal').classList.remove('hidden');
+        }
+
+        function closeExitConfirmation() {
+            document.getElementById('exit-modal').classList.add('hidden');
+        }
+
+        function confirmExit() {
+            closeExitConfirmation();
+            showNotification('You have left the queue', 'warning');
+            // Simulate queue exit
+            setTimeout(() => {
+                window.location.href = 'institution_directory.html';
+            }, 2000);
+        }
+
+        // Emergency exit
+        function emergencyExit() {
+            if (confirm('Are you sure you need to exit the queue due to an emergency?')) {
+                showNotification('Emergency exit processed. Queue position released.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'homepage.html';
+                }, 2000);
+            }
+        }
+
+        // Quick actions
+        function joinNewQueue() {
+            window.location.href = 'institution_directory.html';
+        }
+
+        function viewHistory() {
+            showNotification('Queue history feature coming soon!', 'info');
+        }
+
+        function manageSettings() {
+            showNotification('Notification settings opened', 'info');
+        }
+
+        function shareQueue() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Queue Position',
+                    text: `I'm #${queuePosition} in line at Apollo Hospital - Cardiology. Estimated wait: ${waitTime} minutes.`,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const text = `I'm #${queuePosition} in line at Apollo Hospital - Cardiology. Estimated wait: ${waitTime} minutes.`;
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('Queue position copied to clipboard!', 'success');
+                });
+            }
+        }
+
+        // Notification management
+        function markAllRead() {
+            const notifications = document.querySelectorAll('#notifications-list > div');
+            notifications.forEach(notification => {
+                notification.style.opacity = '0.6';
+            });
+            showNotification('All notifications marked as read', 'success');
+        }
+
+        function viewAllNotifications() {
+            showNotification('All notifications view opened', 'info');
+        }
+
+        // Real-time updates simulation
+        function updateQueueData() {
+            // Simulate queue position changes
+            if (Math.random() > 0.7 && queuePosition > 1) {
+                queuePosition--;
+                waitTime = Math.max(5, waitTime - 3);
+                progressPercentage = Math.min(95, progressPercentage + 10);
+                
+                // Update UI
+                document.getElementById('queue-position').textContent = queuePosition;
+                document.getElementById('wait-time').textContent = `${waitTime} minutes`;
+                document.getElementById('progress-percentage').textContent = `${progressPercentage}%`;
+                document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+                
+                // Add notification
+                addNotification('Queue Position Updated', `You moved up to position #${queuePosition}`, 'success');
+                
+                // Show notification
+                showNotification(`Position updated: #${queuePosition}`, 'success');
+            }
+        }
+
+        // Add new notification to the list
+        function addNotification(title, message, type) {
+            const notificationsList = document.getElementById('notifications-list');
+            const colorClasses = {
+                success: 'bg-success-50 border-success text-success-700',
+                warning: 'bg-warning-50 border-warning text-warning-700',
+                error: 'bg-error-50 border-error text-error-700',
+                info: 'bg-primary-50 border-primary text-primary-700'
+            };
+            
+            const notification = document.createElement('div');
+            notification.className = `flex items-start space-x-3 p-3 ${colorClasses[type]} rounded-lg border-l-4`;
+            notification.innerHTML = `
+                <div class="w-2 h-2 bg-${type === 'error' ? 'error' : type === 'warning' ? 'warning' : type === 'success' ? 'success' : 'primary'} rounded-full mt-2 flex-shrink-0"></div>
+                <div class="flex-1">
+                    <p class="text-sm font-medium">${title}</p>
+                    <p class="text-xs">${message}</p>
+                    <p class="text-xs mt-1">Just now</p>
+                </div>
+            `;
+            
+            notificationsList.insertBefore(notification, notificationsList.firstChild);
+            
+            // Remove oldest notification if more than 5
+            if (notificationsList.children.length > 5) {
+                notificationsList.removeChild(notificationsList.lastChild);
+            }
+        }
+
+        // Show temporary notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const colorClasses = {
+                success: 'bg-success text-white',
+                warning: 'bg-warning text-white',
+                error: 'bg-error text-white',
+                info: 'bg-primary text-white'
+            };
+            
+            notification.className = `fixed top-20 right-4 ${colorClasses[type]} px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-full`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize real-time updates
+        setInterval(updateQueueData, 30000); // Update every 30 seconds
+
+        // Simulate WebSocket connection for real-time updates
+        function initializeWebSocket() {
+            // This would be a real WebSocket connection in production
+            console.log('WebSocket connection initialized for real-time queue updates');
+            
+            // Simulate periodic updates
+            setInterval(() => {
+                if (Math.random() > 0.8) {
+                    const updates = [
+                        'Queue moving faster than expected',
+                        'New person joined behind you',
+                        'Estimated wait time updated',
+                        'Prepare for your turn soon'
+                    ];
+                    const randomUpdate = updates[Math.floor(Math.random() * updates.length)];
+                    addNotification('Queue Update', randomUpdate, 'info');
+                }
+            }, 45000);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeWebSocket();
+            
+            // Show welcome notification
+            setTimeout(() => {
+                showNotification('Welcome back! Your queue position is being tracked.', 'success');
+            }, 1000);
+        });
+
+        // Handle visibility change for background monitoring
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                console.log('Page hidden - background monitoring active');
+            } else {
+                console.log('Page visible - real-time updates resumed');
+                showNotification('Queue updates resumed', 'info');
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'q':
+                        e.preventDefault();
+                        openQRScanner();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        shareQueue();
+                        break;
+                    case 'n':
+                        e.preventDefault();
+                        joinNewQueue();
+                        break;
+                }
+            }
+        });
+
+        // Service Worker registration for PWA capabilities
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                console.log('Service Worker registered successfully');
+            }).catch(function(error) {
+                console.log('Service Worker registration failed');
+            });
+        }
+
+        // Push notification setup
+        if ('Notification' in window && 'serviceWorker' in navigator) {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        console.log('Push notifications enabled');
+                    }
+                });
+            }
+        }
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
